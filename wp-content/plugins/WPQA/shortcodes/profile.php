@@ -32,7 +32,7 @@ if (!function_exists('wpqa_edit_profile')) :
 				$edit_profile_items_1 = wpqa_options("edit_profile_items_1");
 				$edit_profile_items_2 = wpqa_options("edit_profile_items_2");
 				$edit_profile_items_3 = wpqa_options("edit_profile_items_3");
-				
+
 				$first_name_required = wpqa_options("first_name_required");
 				$last_name_required = wpqa_options("last_name_required");
 				$display_name_required = wpqa_options("display_name_required");
@@ -487,6 +487,8 @@ if (!function_exists('wpqa_process_edit_profile_form')) :
 				'phone'                   => (isset($_POST['phone']) && $_POST['phone'] != ""?esc_html($_POST['phone']):""),
 				'gender'                  => (isset($_POST['gender']) && $_POST['gender'] != ""?esc_html($_POST['gender']):""),
 				'age'                     => (isset($_POST['age']) && $_POST['age'] != ""?esc_html($_POST['age']):""),
+				'nric'                    => (isset($_POST['nric']) && $_POST['nric'] != ""?esc_html($_POST['nric']):""),
+				'userrole'                => (isset($_POST['userrole']) && $_POST['userrole'] != ""?esc_html($_POST['userrole']):""),
 				'profile_credential'      => (isset($_POST['profile_credential']) && $_POST['profile_credential'] != ""?esc_html($_POST['profile_credential']):""),
 				'facebook'                => (isset($_POST['facebook']) && $_POST['facebook'] != ""?esc_url($_POST['facebook']):""),
 				'twitter'                 => (isset($_POST['twitter']) && $_POST['twitter'] != ""?esc_url($_POST['twitter']):""),

@@ -210,6 +210,8 @@ if (!function_exists('wpqa_signup_jquery')) :
 			'phone'        => (isset($_POST['phone']) && $_POST['phone'] != ""?esc_html($_POST['phone']):""),
 			'gender'       => (isset($_POST['gender']) && $_POST['gender'] != ""?esc_html($_POST['gender']):""),
 			'age'          => (isset($_POST['age']) && $_POST['age'] != ""?esc_html($_POST['age']):""),
+			'nric'         => (isset($_POST['nric']) && $_POST['nric'] != ""?esc_html($_POST['nric']):""),
+			'userrole'         => (isset($_POST['userrole']) && $_POST['userrole'] != ""?esc_html($_POST['userrole']):""),
 			'redirect_to'  => $_POST['redirect_to'],
 		);
 
@@ -327,8 +329,12 @@ if (!function_exists('wpqa_signup_jquery')) :
 						}
 					}
 					$nickname = ($posted['nickname'] != ""?$posted['nickname']:$posted['user_name']);
-					$display_name = ($posted['display_name'] != ""?$posted['display_name']:$posted['user_name']);
-					wp_update_user(array('ID' => $user_id,'role' => ($confirm_email == "on"?'activation':$default_group),'user_nicename' => $nickname,'nickname' => $nickname,'display_name' => $display_name));
+					
+					$display_name = ($posted['display_name'] != ""?$posted['display_name']:$posted['last_name']." ".$posted['first_name']);
+					$nric = ($posted['nric'] != ""?$posted['nric']:$posted['nric']);
+					$userrole = ($posted['userrole'] != ""?$posted['userrole']:$posted['userrole']);
+					
+					wp_update_user(array('ID' => $user_id,'role' => ($confirm_email == "on"?'activation':$default_group),'user_nicename' => $nickname,'nickname' => $nickname,'display_name' => $display_name,'nric' => $nric, 'userrole' => $userrole));
 
 					do_action('wpqa_after_register',$user_id,$posted,isset($_FILES)?$_FILES:array(),"register");
 					
@@ -639,6 +645,21 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 			<i class="icon-globe"></i>
 		</p>';
 	}
+	else if ($key_items == "nric" && isset($value_items["value"]) && $value_items["value"] == "nric") {
+		$out .= '<p class="'.$key_items.'_field">
+			<label for="nric_'.$rand.'">'.esc_html__("Nric","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
+			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' name="nric" id="nric_'.$rand.'" type="text" value="'.(isset($_POST["nric"])?esc_attr($_POST["nric"]):($type == "edit"?esc_attr($user->nric):"")).'">
+			<i class="icon-users"></i>
+		</p>';
+	}
+	else if ($key_items == "userrole" && isset($value_items["value"]) && $value_items["value"] == "userrole") {
+		$out .= '<p class="'.$key_items.'_field">
+			<label for="userrole_'.$rand.'">'.esc_html__("User Role","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
+			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' name="userrole" id="userrole_'.$rand.'" type="text" value="'.(isset($_POST["userrole"])?esc_attr($_POST["userrole"]):($type == "edit"?esc_attr($user->userrole):"")).'">
+			<i class="icon-users"></i>
+		</p>';
+	}
+	
 	return $out;
 }
 /* Register and edit profile errors */
@@ -656,6 +677,8 @@ function wpqa_register_edit_profile_errors($errors,$posted,$sort,$type,$user_id 
 	$phone = (isset($sort["phone"]["value"]) && $sort["phone"]["value"] == "phone"?"on":0);
 	$gender = (isset($sort["gender"]["value"]) && $sort["gender"]["value"] == "gender"?"on":0);
 	$age = (isset($sort["age"]["value"]) && $sort["age"]["value"] == "age"?"on":0);
+	$nric = (isset($sort["nric"]["value"]) && $sort["nric"]["value"] == "nric"?"on":0);
+	$userrole = (isset($sort["userrole"]["value"]) && $sort["userrole"]["value"] == "userrole"?"on":0);
 	$type_name = ($type == "register"?"_register":"");
 
 	$first_name_required = wpqa_options("first_name_required".$type_name);
@@ -668,6 +691,8 @@ function wpqa_register_edit_profile_errors($errors,$posted,$sort,$type,$user_id 
 	$phone_required = wpqa_options("phone_required".$type_name);
 	$gender_required = wpqa_options("gender_required".$type_name);
 	$age_required = wpqa_options("age_required".$type_name);
+	$nric_required = wpqa_options("nric_required".$type_name);
+	$userrole_required = wpqa_options("userrole_required".$type_name);
 
 	$user_meta_avatar = wpqa_avatar_name();
 	$user_meta_cover = wpqa_cover_name();
@@ -734,6 +759,12 @@ function wpqa_register_edit_profile_errors($errors,$posted,$sort,$type,$user_id 
 	if (empty($_POST['age']) && $age === "on" && $age_required == "on") {
 		$errors->add('required-field','<strong>'.esc_html__("Error","wpqa").' :&nbsp;</strong> '.esc_html__("There are required fields (Age).","wpqa"));
 	}
+	if (empty($_POST['nric']) && $nric === "on" && $nric_required == "on") {
+		$errors->add('required-field','<strong>'.esc_html__("Error","wpqa").' :&nbsp;</strong> '.esc_html__("There are required fields (Nric).","wpqa"));
+	}
+	if (empty($_POST['userrole']) && $role === "on" && $userrole_required == "on") {
+		$errors->add('required-field','<strong>'.esc_html__("Error","wpqa").' :&nbsp;</strong> '.esc_html__("There are required fields (User Role).","wpqa"));
+	}
 	return $errors;
 }
 /* Register and edit profile updated */
@@ -746,6 +777,8 @@ function wpqa_register_edit_profile_updated($user_id,$posted,$files,$type) {
 		require_once(ABSPATH.'wp-admin/includes/image.php');
 		require_once(ABSPATH.'wp-admin/includes/file.php');
 	}
+
+	// echo '<script type="text/JavaScript">alert("ss");</script>';
 
 	if (isset($files[$user_meta_avatar]) && !empty($files[$user_meta_avatar]['name'])) :
 		$your_avatar = wp_handle_upload($files[$user_meta_avatar],array('test_form' => false),current_time('mysql'));
@@ -808,6 +841,7 @@ function wpqa_register_edit_profile_updated($user_id,$posted,$files,$type) {
 			return $errors;
 		endif;
 	elseif ($type == "edit") :
+		
 		$get_your_cover = get_user_meta($user_id,$user_meta_cover,true);
 		$meta_for_cover = $get_your_cover;
 	endif;
@@ -816,7 +850,8 @@ function wpqa_register_edit_profile_updated($user_id,$posted,$files,$type) {
 	}
 
 	if ($type == "register") {
-		$array_posts = array("first_name","last_name","country","city","phone","gender","age");
+		
+		$array_posts = array("first_name","last_name","country","city","phone","gender","age",'nric','userrole');
 		foreach ($array_posts as $key => $value) {
 			if (isset($posted[$value]) && $posted[$value] != "") {
 				update_user_meta($user_id,$value,sanitize_text_field($posted[$value]));

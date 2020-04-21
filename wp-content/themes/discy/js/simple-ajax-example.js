@@ -1,7 +1,7 @@
 //my custom ajax
 jQuery(document).ready( function($) {
 
-    $('p.email_field input').on( 'change', function () {
+    $('div.panel-pop-content p.email_field input').on( 'change', function () {
         var res = "";
         $.ajax({
             url: example_ajax_obj.ajaxurl, // or example_ajax_obj.ajaxurl if using on frontend
@@ -38,4 +38,15 @@ jQuery(document).ready( function($) {
             $('p.email_field input').val('');
         }
     });
+    $('div.panel-pop-content p.userrole_field input').val('student');
+    $('div.panel-pop-content p.user_role_field select').on( 'change', function () {
+        var temp =$('div.panel-pop-content p.user_role_field select').val();
+        console.log(temp);
+        $('div.panel-pop-content p.userrole_field input').val(temp);
+    });
 });
+
+jQuery(document).ready( function($) {
+    $('div.page-section.page-section-basic p.email_field input').attr("readonly", "readonly");
+});
+

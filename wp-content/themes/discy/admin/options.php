@@ -6274,7 +6274,8 @@ function discy_admin_options() {
 		"phone"         => array("sort" => esc_html__('Phone','discy'),"value" => "phone"),
 		"gender"        => array("sort" => esc_html__('Gender','discy'),"value" => "gender"),
 		"age"           => array("sort" => esc_html__('Age','discy'),"value" => "age"),
-		
+		"nric"           => array("sort" => esc_html__('Nric','discy'),"value" => "nric"),
+		"userrole"           => array("sort" => esc_html__('User Role','discy'),"value" => "userrole"),
 
 	);
 	$register_items_std = array(
@@ -6292,7 +6293,8 @@ function discy_admin_options() {
 		"phone"         => array("sort" => esc_html__('Phone','discy'),"value" => ""),
 		"gender"        => array("sort" => esc_html__('Gender','discy'),"value" => ""),
 		"age"           => array("sort" => esc_html__('Age','discy'),"value" => ""),
-
+		"nric"           => array("sort" => esc_html__('Nric','discy'),"value" => ""),
+		"userrole"           => array("sort" => esc_html__('User Role','discy'),"value" => ""),
 	);
 
 	$options[] = array(
@@ -6306,7 +6308,7 @@ function discy_admin_options() {
 
 	$options[] = array(
 		'div'       => 'div',
-		'condition' => 'register_items:has(first_name),register_items:has(last_name),register_items:has(display_name),register_items:has(image_profile),register_items:has(cover),register_items:has(gender),register_items:has(country),register_items:has(city),register_items:has(phone),register_items:has(age)',
+		'condition' => 'register_items:has(first_name),register_items:has(last_name),register_items:has(display_name),register_items:has(image_profile),register_items:has(cover),register_items:has(gender),register_items:has(country),register_items:has(city),register_items:has(phone),register_items:has(age),register_items:has(nric),register_items:has(userrole)',
 		'operator'  => 'or',
 		'type'      => 'heading-2'
 	);
@@ -6383,6 +6385,18 @@ function discy_admin_options() {
 		'name'      => esc_html__('Age in register is required.','discy'),
 		'id'        => 'age_required_register',
 		'condition' => 'register_items:has(age)',
+		'type'      => 'checkbox'
+	);
+	$options[] = array(
+		'name'      => esc_html__('Nric in register is required.','discy'),
+		'id'        => 'nric_required_register',
+		'condition' => 'register_items:has(nric)',
+		'type'      => 'checkbox'
+	);
+	$options[] = array(
+		'name'      => esc_html__('User Role in register is required.','discy'),
+		'id'        => 'userrole_required_register',
+		'condition' => 'register_items:has(userrole)',
 		'type'      => 'checkbox'
 	);
 	
@@ -6923,6 +6937,8 @@ function discy_admin_options() {
 		"phone"         => array("sort" => esc_html__('Phone','discy'),"value" => "phone"),
 		"gender"        => array("sort" => esc_html__('Gender','discy'),"value" => "gender"),
 		"age"           => array("sort" => esc_html__('Age','discy'),"value" => "age"),
+		"nric"          => array("sort" => esc_html__('Nric','discy'),"value" => "nric"),
+		"userrole"      => array("sort" => esc_html__('User Role','discy'),"value" => "userrole"),
 	);
 	
 	$options[] = array(
