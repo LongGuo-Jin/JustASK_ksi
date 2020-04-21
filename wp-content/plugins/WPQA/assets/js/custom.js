@@ -59,6 +59,7 @@
 		});
 	}
 
+
 	if (jQuery(".live-search").length) {
 		jQuery(".live-search").each(function () {
 			var main_live_search   = jQuery(this);
@@ -124,6 +125,7 @@
 			});
 		});
 	}
+
 	
 	/* Fake file */
 	

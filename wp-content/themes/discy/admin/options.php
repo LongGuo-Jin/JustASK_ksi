@@ -5605,7 +5605,7 @@ function discy_admin_options() {
 			"referral_setting"   => esc_html__('Referral setting','discy'),
 			"popup_notification" => esc_html__('Popup Notification','discy'),
 			"permissions"        => esc_html__('Permissions','discy'),
-			"author_setting"     => esc_html__('Author Setting','discy')
+			"author_setting"     => esc_html__('Author Setting','discy'),
 		)
 	);
 	

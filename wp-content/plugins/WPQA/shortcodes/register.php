@@ -49,7 +49,7 @@ if (!function_exists('wpqa_signup_attr')) :
 						$register_items["email"] = array("sort" => esc_html__("E-Mail","wpqa"),"value" => "email");
 						$register_items["password"] = array("sort" => esc_html__("Password","wpqa"),"value" => "password");
 					}
-					print_r($register_items); 
+					// print_r($register_items); 
 					if (isset($register_items) && is_array($register_items) && !empty($register_items)) {
 						foreach ($register_items as $sort_key => $sort_value) {
 							$out = apply_filters("wpqa_register_sort",$out,"register_items",$register_items,$sort_key,$sort_value,"register",$posted);
@@ -61,18 +61,15 @@ if (!function_exists('wpqa_signup_attr')) :
 									<span class="styled-select">
 										<select name="search_type" class="search_type user_filter_active">
 											<option value="-1">Select kind of role</option>
-											<option selected="selected" value="children">Children</option>
+											<option selected="selected" value="student">Student</option>
 											<option value="parent">Parent</option>
 											<option value="professor">Professor</option>
 										</select>
 									</span>
 									<i class="icon-user"></i>
-								</p>
-								<p class="'.$sort_key.'_field">
-									<label for="user_name_'.$rand_r.'">'.esc_html__("Username","wpqa").'<span class="required">*</span></label>
-									<input type="text" class="required-item" name="user_name" id="user_name_'.$rand_r.'" value="'.(isset($posted["user_name"])?$posted["user_name"]:"").'">
-									<i class="icon-user"></i>
-								</p>'.apply_filters('wpqa_register_after_username',false,$posted);
+									<input type="hidden" class="required-item" name="user_name" id="user_name_'.$rand_r.'" value="'.(isset($posted["user_name"])?$posted["user_name"]:"").'">
+								</p>	
+								'.apply_filters('wpqa_register_after_username',false,$posted);
 							}else if ($sort_key == "email" && isset($sort_value["value"]) && $sort_value["value"] == "email") {
 								$out .= '<p class="'.$sort_key.'_field">
 									<label for="email_'.$rand_r.'">'.esc_html__("E-Mail","wpqa").'<span class="required">*</span></label>
@@ -136,6 +133,58 @@ if (!function_exists('wpqa_signup_attr')) :
 		return $out;
 	}
 endif;
+
+function example_ajax_request() {
+ 
+    // The $_REQUEST contains all the data sent via ajax
+    if ( isset($_REQUEST) ) {
+     
+        $email_val = $_REQUEST['email_val'];
+         
+		
+        // Now we'll return it to the javascript function
+        // Anything outputted will be returned in the response
+		
+		// Check the e-mail address
+		$err = -1;		
+		if ( !is_email( $email_val ) ) :
+			$err = "Please write correctly email.";
+		elseif ( email_exists( $email_val ) ) :
+			$err = "This email ".$email_val." is already registered.";
+		endif;
+		echo $err;
+		
+         
+        // If you're debugging, it might be useful to see what was sent in the $_REQUEST
+        // print_r($_REQUEST);
+     
+    }
+     
+    // Always die in functions echoing ajax content
+   die();
+}
+ 
+add_action( 'wp_ajax_nopriv_example_ajax_request', 'example_ajax_request' );
+
+function example_ajax_enqueue() {
+
+	// Enqueue javascript on the frontend.
+	wp_enqueue_script(
+		'example-ajax-script',
+		get_template_directory_uri() . '/js/simple-ajax-example.js',
+		array('jquery')
+	);
+
+	// The wp_localize_script allows us to output the ajax_url path for our script to use.
+	wp_localize_script(
+		'example-ajax-script',
+		'example_ajax_obj',
+		array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) )
+	);
+
+}
+add_action( 'wp_enqueue_scripts', 'example_ajax_enqueue' );
+
 /* Signup jQuery */
 if (!function_exists('wpqa_signup_jquery')) :
 	function wpqa_signup_jquery() {
@@ -342,6 +391,8 @@ if (!function_exists('wpqa_signup_process')) :
 		endif;
 	}
 endif;
+
+
 add_filter('wpqa_register_form','wpqa_signup_process');
 /* Registration save */
 add_action('user_register','wpqa_registration_save',10,1);
@@ -773,3 +824,4 @@ function wpqa_register_edit_profile_updated($user_id,$posted,$files,$type) {
 		}
 	}
 }?>
+
