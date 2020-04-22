@@ -1,7 +1,7 @@
 //my custom ajax
 
 jQuery(document).ready( function($) {
-    $('#profile_search a').on( 'click', function () {
+    $('#profile_search #related_search').on( 'click', function () {
           
         if($('#profile_search #sfirst_name').val() == ""){
             alert('Please enter frist name.');
@@ -17,16 +17,24 @@ jQuery(document).ready( function($) {
                 type: "POST",
                 dataType: 'html',
                 data: {
-                    action: 'retrieveUsersData'
+                    action: 'retrieveUsersData',
+                    first:$('#profile_search #sfirst_name').val(),
+                    last:$('#profile_search #slast_name').val(),
+                    nric:$('#profile_search #snric').val(),
                 },
                 
                 success:function(data) {
+                    if($('#profile_search #related_searchnew'))
+                        $('#profile_search #related_searchnew').remove();
+                    $('#profile_search #related_search').parent().append('<a id="related_searchnew" style="margin:5px; width: 48%; text-align:center;" href="'
+                        +data+'" class="button-default profile-button">Go</a>');
                     console.log(data);
                 },
                 error: function(errorThrown){
                     console.log(errorThrown);
                 }
             });
+            
         }
     });
 });

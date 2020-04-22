@@ -9,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-
-
 /* Edit profile */
 if (!function_exists('wpqa_edit_profile')) :
 	function wpqa_edit_profile($atts, $content = null) {
@@ -633,65 +631,6 @@ if (!function_exists('wpqa_show_extra_profile_fields')) :
 	<?php }
 endif;
 
-function example_ajax_request() {
-	
-    // The $_REQUEST contains all the data sent via ajax
-    if ( isset($_REQUEST) ) {
-     
-        $email_val = $_REQUEST['email_val'];
-         
-		
-        // Now we'll return it to the javascript function
-        // Anything outputted will be returned in the response
-		
-		// Check the e-mail address
-		$err = -1;		
-		if ( !is_email( $email_val ) ) :
-			$err = "Please write correctly email.";
-		elseif ( email_exists( $email_val ) ) :
-			$err = "This email ".$email_val." is already registered.";
-		endif;
-		echo $err;
-		
-         
-        // If you're debugging, it might be useful to see what was sent in the $_REQUEST
-        // print_r($_REQUEST);
-     
-    }
-     
-    // Always die in functions echoing ajax content
-   die();
-}
-add_action( 'wp_ajax_nopriv_example_ajax_request', 'example_ajax_request' );
-
-function example_ajax_enqueue() {
-
-	// Enqueue javascript on the frontend.
-	wp_enqueue_script(
-		'example-ajax-script',
-		get_template_directory_uri() . '/js/simple-ajax-example.js',
-		array('jquery')
-	);
-
-	// The wp_localize_script allows us to output the ajax_url path for our script to use.
-	wp_localize_script(
-		'example-ajax-script',
-		'example_ajax_obj',
-		array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) )
-	);
-
-}
-add_action( 'wp_enqueue_scripts', 'example_ajax_enqueue' );
-
-
-function retrieveUsersData(){
-	echo "ajax responding";
-	die();
-}
-
-add_action('wp_ajax_retrieveUsersData','retrieveUsersData');
-
-add_action('wp_ajax_nopriv_retrieveUsersData', 'retrieveUsersData');
 
 
 /* Save user's meta */

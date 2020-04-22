@@ -129,6 +129,7 @@ class Widget_profile_strength extends WP_Widget {
 							echo '<label>Your Parent First Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="first_name" id="sfirst_name" type="text" value=""> </i><br>';
 							echo '<label>Your Parent Last Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="last_name" id="slast_name" type="text" value=""> </i><br>';
 							echo '<label>Your Parent Nric<span class="required">*</span></label> <input class="required-item" style="width:100%" name="nric" id="snric" type="text" value=""> </i><br>';
+							echo '<div><a id="related_search" style="margin: 5px; width:48%; text-align:center;" class="button-default profile-button">Search</a></div>';
 							echo '</section>';
 						}
 						else if($user_role == "parent")
@@ -138,7 +139,7 @@ class Widget_profile_strength extends WP_Widget {
 							echo '<label>Your Chidren First Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="first_name" id="sfirst_name" type="text" value=""> </i><br>';
 							echo '<label>Your Children Last Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="last_name" id="slast_name" type="text" value=""> </i><br>';
 							echo '<label>Your Children Nric<span class="required">*</span></label> <input class="required-item" style="width:100%" name="nric" id="snric" type="text" value=""> </i><br>';
-							echo '<a style="margin-top: 0px; text-align:center;" class="button-default profile-button">Search</a>';
+							echo '<div><a id="related_search" style="margin: 5px; width: 48%; text-align:center;" class="button-default profile-button">Search</a></div>';
 							echo '</section>';
 						}
 						
