@@ -14,6 +14,7 @@ add_action( 'widgets_init', 'widget_profile_strength_widget' );
 function widget_profile_strength_widget() {
 	register_widget( 'Widget_profile_strength' );
 }
+
 class Widget_profile_strength extends WP_Widget {
 
 	function __construct() {
@@ -26,6 +27,8 @@ class Widget_profile_strength extends WP_Widget {
 		extract( $args );
 		if (is_user_logged_in()) {
 			$user_id              = get_current_user_id();
+			$user_email = get_the_author_meta("user_email",$user_id);
+			$user_role = get_the_author_meta("userrole",$user_id);
 			$items_left = $total  = 0;
 			$profile_strength     = wpqa_options("profile_strength");
 			$percent_avatar       = wpqa_options("percent_avatar");
@@ -119,6 +122,26 @@ class Widget_profile_strength extends WP_Widget {
 			$total = apply_filters("wpqa_widget_total",$total);
 			$items_left = apply_filters("wpqa_widget_items_left",$items_left);
 			if ((isset($first_item) && $first_item != "") && ($done_avatar == false || $done_cover == false || $done_credential == false || $done_cats == false || $done_users == false || $done_question == false || $done_answer == false || $done_filter == false)) {
+				
+						if($user_role == "student"){
+							echo '<section id="profile_search"  style="padding: 0 20px 30px 18px;margin-bottom: 30px; border-bottom: 2px solid #e1e3e3;">';
+							echo '<h2 class="widget-title"><i class="icon-folder"></i>Search Your Parent Profile</h2>';
+							echo '<label>Your Parent First Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="first_name" id="sfirst_name" type="text" value=""> </i><br>';
+							echo '<label>Your Parent Last Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="last_name" id="slast_name" type="text" value=""> </i><br>';
+							echo '<label>Your Parent Nric<span class="required">*</span></label> <input class="required-item" style="width:100%" name="nric" id="snric" type="text" value=""> </i><br>';
+							echo '</section>';
+						}
+						else if($user_role == "parent")
+						{
+							echo '<section id="profile_search" style="padding: 0 20px 30px 18px;margin-bottom: 30px;border-bottom: 2px solid #e1e3e3;">';
+							echo '<h2 class="widget-title"><i class="icon-folder"></i>Search Your Chidren Profile</h2>';
+							echo '<label>Your Chidren First Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="first_name" id="sfirst_name" type="text" value=""> </i><br>';
+							echo '<label>Your Children Last Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="last_name" id="slast_name" type="text" value=""> </i><br>';
+							echo '<label>Your Children Nric<span class="required">*</span></label> <input class="required-item" style="width:100%" name="nric" id="snric" type="text" value=""> </i><br>';
+							echo '<a style="margin-top: 0px; text-align:center;" class="button-default profile-button">Search</a>';
+							echo '</section>';
+						}
+						
 				$title = apply_filters('widget_title', $instance['title'] );
 				echo ($before_widget);
 					if ($title) {
@@ -156,7 +179,13 @@ class Widget_profile_strength extends WP_Widget {
 								do_action("wpqa_profile_strength",$value);
 							}?>
 						</ul>
-						<a class="button-default profile-button" href="<?php echo wpqa_get_profile_permalink($user_id,"edit")?>"><?php esc_html_e("Start Now","wpqa")?></a>
+						<div>
+							<a style="width:49%; text-align:center;" class="button-default profile-button" href="<?php echo wpqa_get_profile_permalink($user_id,"edit")?>"><?php esc_html_e("Start Now","wpqa")?></a>
+							<a style="width:49%; text-align:center;" class="button-default profile-button" href="<?php echo wpqa_get_profile_permalink($user_id,"show")?>"><?php esc_html_e("My Profile","wpqa")?></a>
+						</div>
+						<br>
+						
+						
 					</div>
 				<?php echo ($after_widget);
 			}

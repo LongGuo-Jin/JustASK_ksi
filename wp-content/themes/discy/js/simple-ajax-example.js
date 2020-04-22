@@ -1,4 +1,37 @@
 //my custom ajax
+
+jQuery(document).ready( function($) {
+    $('#profile_search a').on( 'click', function () {
+          
+        if($('#profile_search #sfirst_name').val() == ""){
+            alert('Please enter frist name.');
+        }
+        else if($('#profile_search #slast_name').val() == ""){
+            alert('Please enter last name.');
+        }
+        else if($('#profile_search #snric').val() == ""){
+            alert('Please enter 4 last nric.');
+        }else{
+            $.ajax({
+                url: ajaxurl,
+                type: "POST",
+                dataType: 'html',
+                data: {
+                    action: 'retrieveUsersData'
+                },
+                
+                success:function(data) {
+                    console.log(data);
+                },
+                error: function(errorThrown){
+                    console.log(errorThrown);
+                }
+            });
+        }
+    });
+});
+
+
 jQuery(document).ready( function($) {
 
     $('div.panel-pop-content p.email_field input').on( 'change', function () {
@@ -37,12 +70,6 @@ jQuery(document).ready( function($) {
             alert(res);
             $('p.email_field input').val('');
         }
-    });
-    $('div.panel-pop-content p.userrole_field input').val('student');
-    $('div.panel-pop-content p.user_role_field select').on( 'change', function () {
-        var temp =$('div.panel-pop-content p.user_role_field select').val();
-        console.log(temp);
-        $('div.panel-pop-content p.userrole_field input').val(temp);
     });
 });
 

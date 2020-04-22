@@ -57,17 +57,7 @@ if (!function_exists('wpqa_signup_attr')) :
 							if ($sort_key == "username" && isset($sort_value["value"]) && $sort_value["value"] == "username") {
 								$out .= '
 								<p class="user_role_field">
-									<label for="user_role_'.$rand_r.'">Role<span class="required">*</span></label>
-									<span class="styled-select">
-										<select name="search_type" class="search_type user_filter_active">
-											<option value="-1">Select kind of role</option>
-											<option selected="selected" value="student">Student</option>
-											<option value="parent">Parent</option>
-											<option value="professor">Professor</option>
-										</select>
-									</span>
-									<i class="icon-user"></i>
-									<input type="hidden" class="required-item" name="user_name" id="user_name_'.$rand_r.'" value="'.(isset($posted["user_name"])?$posted["user_name"]:"").'">
+								<input type="hidden" class="required-item" name="user_name" id="user_name_'.$rand_r.'" value="'.(isset($posted["user_name"])?$posted["user_name"]:"").'">
 								</p>	
 								'.apply_filters('wpqa_register_after_username',false,$posted);
 							}else if ($sort_key == "email" && isset($sort_value["value"]) && $sort_value["value"] == "email") {
@@ -134,56 +124,6 @@ if (!function_exists('wpqa_signup_attr')) :
 	}
 endif;
 
-function example_ajax_request() {
- 
-    // The $_REQUEST contains all the data sent via ajax
-    if ( isset($_REQUEST) ) {
-     
-        $email_val = $_REQUEST['email_val'];
-         
-		
-        // Now we'll return it to the javascript function
-        // Anything outputted will be returned in the response
-		
-		// Check the e-mail address
-		$err = -1;		
-		if ( !is_email( $email_val ) ) :
-			$err = "Please write correctly email.";
-		elseif ( email_exists( $email_val ) ) :
-			$err = "This email ".$email_val." is already registered.";
-		endif;
-		echo $err;
-		
-         
-        // If you're debugging, it might be useful to see what was sent in the $_REQUEST
-        // print_r($_REQUEST);
-     
-    }
-     
-    // Always die in functions echoing ajax content
-   die();
-}
- 
-add_action( 'wp_ajax_nopriv_example_ajax_request', 'example_ajax_request' );
-
-function example_ajax_enqueue() {
-
-	// Enqueue javascript on the frontend.
-	wp_enqueue_script(
-		'example-ajax-script',
-		get_template_directory_uri() . '/js/simple-ajax-example.js',
-		array('jquery')
-	);
-
-	// The wp_localize_script allows us to output the ajax_url path for our script to use.
-	wp_localize_script(
-		'example-ajax-script',
-		'example_ajax_obj',
-		array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) )
-	);
-
-}
-add_action( 'wp_enqueue_scripts', 'example_ajax_enqueue' );
 
 /* Signup jQuery */
 if (!function_exists('wpqa_signup_jquery')) :
@@ -211,7 +151,7 @@ if (!function_exists('wpqa_signup_jquery')) :
 			'gender'       => (isset($_POST['gender']) && $_POST['gender'] != ""?esc_html($_POST['gender']):""),
 			'age'          => (isset($_POST['age']) && $_POST['age'] != ""?esc_html($_POST['age']):""),
 			'nric'         => (isset($_POST['nric']) && $_POST['nric'] != ""?esc_html($_POST['nric']):""),
-			'userrole'         => (isset($_POST['userrole']) && $_POST['userrole'] != ""?esc_html($_POST['userrole']):""),
+			'userrole'     => (isset($_POST['userrole']) && $_POST['userrole'] != ""?esc_html($_POST['userrole']):""),
 			'redirect_to'  => $_POST['redirect_to'],
 		);
 
@@ -220,6 +160,10 @@ if (!function_exists('wpqa_signup_jquery')) :
 		$posted = array_map('stripslashes', $posted);
 		$posted['username'] = sanitize_user((isset($posted['username'])?$posted['username']:""));
 		// Validation
+		// if ( empty($posted['userrole']) ) {
+		// 	$errors->add('required-userrole',esc_html__("Please enter select one role.","wpqa"));
+		// }
+
 		if ( empty($posted['user_name']) ) {
 			$errors->add('required-username',esc_html__("Please enter your name.","wpqa"));
 		}
@@ -653,9 +597,18 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 		</p>';
 	}
 	else if ($key_items == "userrole" && isset($value_items["value"]) && $value_items["value"] == "userrole") {
+		
+		$get_roles = apply_filters('wpqa_get_roles',false);
 		$out .= '<p class="'.$key_items.'_field">
-			<label for="userrole_'.$rand.'">'.esc_html__("User Role","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
-			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' name="userrole" id="userrole_'.$rand.'" type="text" value="'.(isset($_POST["userrole"])?esc_attr($_POST["userrole"]):($type == "edit"?esc_attr($user->userrole):"")).'">
+			<label for="userrole_'.$rand.'">'.esc_html__("User role","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
+			<span class="styled-select">
+				<select name="userrole" id="userrole_'.$rand.'" '.($key_required == "on"?'class="required-item"':'').'>
+					<option value="">'.esc_html__( 'Select One Role', 'wpqa' ).'</option>';
+						foreach( $get_roles as $key => $value ) {
+							$out .= '<option value="' . esc_attr( $key ) . '"' . selected( (isset($_POST["userrole"])?esc_attr($_POST["userrole"]):($type == "edit"?esc_attr($user_meta):"")), esc_attr( $key ), false ) . '>' . esc_attr( $value ) . '</option>';
+						}
+				$out .= '</select>
+			</span>
 			<i class="icon-users"></i>
 		</p>';
 	}
@@ -712,6 +665,7 @@ function wpqa_register_edit_profile_errors($errors,$posted,$sort,$type,$user_id 
 	if (empty($_POST['last_name']) && $last_name === "on" && $last_name_required == "on") {
 		$errors->add('required-field','<strong>'.esc_html__("Error","wpqa").' :&nbsp;</strong> '.esc_html__("There are required fields (Last name).","wpqa"));
 	}
+
 	if (empty($_POST['display_name']) && $display_name === "on" && $display_name_required == "on") {
 		$errors->add('required-field','<strong>'.esc_html__("Error","wpqa").' :&nbsp;</strong> '.esc_html__("There are required fields (Display name).","wpqa"));
 	}
@@ -759,12 +713,14 @@ function wpqa_register_edit_profile_errors($errors,$posted,$sort,$type,$user_id 
 	if (empty($_POST['age']) && $age === "on" && $age_required == "on") {
 		$errors->add('required-field','<strong>'.esc_html__("Error","wpqa").' :&nbsp;</strong> '.esc_html__("There are required fields (Age).","wpqa"));
 	}
+	if (empty($_POST['userrole']) && $userrole === "on" && $userrole_required == "on") {
+		$errors->add('required-field','<strong>'.esc_html__("Error","wpqa").' :&nbsp;</strong> '.esc_html__("There are required fields (User Role).","wpqa"));
+	}
 	if (empty($_POST['nric']) && $nric === "on" && $nric_required == "on") {
 		$errors->add('required-field','<strong>'.esc_html__("Error","wpqa").' :&nbsp;</strong> '.esc_html__("There are required fields (Nric).","wpqa"));
 	}
-	if (empty($_POST['userrole']) && $role === "on" && $userrole_required == "on") {
-		$errors->add('required-field','<strong>'.esc_html__("Error","wpqa").' :&nbsp;</strong> '.esc_html__("There are required fields (User Role).","wpqa"));
-	}
+	
+	
 	return $errors;
 }
 /* Register and edit profile updated */

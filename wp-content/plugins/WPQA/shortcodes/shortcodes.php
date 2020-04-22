@@ -17,6 +17,7 @@ require_once plugin_dir_path(dirname(__FILE__)).'shortcodes/post.php';
 require_once plugin_dir_path(dirname(__FILE__)).'shortcodes/profile.php';
 require_once plugin_dir_path(dirname(__FILE__)).'shortcodes/question.php';
 require_once plugin_dir_path(dirname(__FILE__)).'shortcodes/register.php';
+
 /* Signup shortcode */
 add_shortcode('wpqa_signup','wpqa_signup_attr');
 /* Login shortcode */
@@ -38,4 +39,8 @@ add_shortcode('wpqa_edit_comment','wpqa_edit_comment_attr');
 /* Send message shortcode */
 add_shortcode('wpqa_send_message','wpqa_send_message_shortcode');
 /* Add category shortcode */
-add_shortcode('wpqa_add_category','wpqa_add_category_attr');?>
+add_shortcode('wpqa_add_category','wpqa_add_category_attr');
+
+
+
+?>

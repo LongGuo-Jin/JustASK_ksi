@@ -24,3 +24,6 @@ require_once plugin_dir_path(dirname(__FILE__)).'widgets/stats.php';
 require_once plugin_dir_path(dirname(__FILE__)).'widgets/tabs.php';
 require_once plugin_dir_path(dirname(__FILE__)).'widgets/tags.php';
 require_once plugin_dir_path(dirname(__FILE__)).'widgets/users.php';
+
+
+

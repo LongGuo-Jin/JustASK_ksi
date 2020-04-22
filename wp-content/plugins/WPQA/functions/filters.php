@@ -344,6 +344,20 @@ if (!function_exists('wpqa_get_countries')) :
 		return $countries;
 	}
 endif;
+
+add_filter('wpqa_get_roles','wpqa_get_roles');
+if (!function_exists('wpqa_get_roles')) :
+	function wpqa_get_roles() {
+		$countries = array(
+			'student' => esc_html__( 'Student', 'wpqa' ),
+			'parent' => esc_html__( 'Parent', 'wpqa' ),
+			'professor' => esc_html__( 'Professor', 'wpqa' ),
+		);
+		// asort($countries);
+		return $countries;
+	}
+endif;
+
 /* Get comment reply link */
 add_filter("comment_reply_link","wpqa_comment_reply_link",1,3);
 if (!function_exists('wpqa_comment_reply_link')) :
