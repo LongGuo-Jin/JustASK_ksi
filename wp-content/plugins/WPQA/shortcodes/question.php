@@ -950,7 +950,10 @@ function wpqa_add_question($type) {
 						wpqa_notifications_activities($get_current_user_id,"","",$return,"","add_question","activities","","question");
 					}
 					wpqa_post_publish($get_post,$not_user);
-                    wpqa_session('<div class="alert-message success"><i class="icon-check"></i><p>'.esc_html__("Great! Do you know that sharing the question will earn you some bean?","wpqa").'</p></div>','wpqa_session');
+					
+					// Great! Do you know that sharing the question will earn you some bean?
+					$mess = wpqa_options("message_success_registered");
+                    wpqa_session('<div class="alert-message success"><i class="icon-check"></i><p>'.$mess.'</p></div>','wpqa_session');
 					wp_redirect(get_permalink($return));
 				}
 			}

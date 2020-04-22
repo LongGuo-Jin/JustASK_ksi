@@ -8686,6 +8686,12 @@ function discy_admin_options() {
 		'id'   => 'answers_setting',
 		'type' => 'heading-2'
 	);
+
+	$options[] = array(
+		'name' => esc_html__('After being successfully registered, the following message are shown. ','discy'),
+		'id'   => 'message_success_registered',
+		'type' => 'text'
+	);
 	
 	$options[] = array(
 		'name' => esc_html__('Enable or disable the editor in the answer','discy'),
