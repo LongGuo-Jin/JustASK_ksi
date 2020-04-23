@@ -248,3 +248,10 @@ body.stop-scrolling{height:100%;overflow:hidden}.sweet-overlay{background-color:
     transition: none;
   }
   
+@media only screen and (max-width: 782px) {
+  .mobile_response_landpage{
+      /* display:none; */
+      height: 250px !important;
+      /* width:10px; */
+  }
+}

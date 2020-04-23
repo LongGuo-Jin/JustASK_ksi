@@ -5,6 +5,15 @@ jQuery(document).ready( function($) {
     // mobile css custom js
     jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('font-size','30px');
     jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('color','#8dc21f');
+    var width = $(window).width();
+    
+    if (width < 782) {
+        //width is larger than 500px and smaller than 900px
+        jQuery('.call-action-unlogged.call-action-light.call-action-style_1').attr('style','height:250px !important');
+    }
+    
+    
+    // jQuery('.call-action-unlogged.call-action-light.call-action-style_1').addClass('mobile_response_landpage');
     $('#profile_search #related_search').on( 'click', function () {
           
         if($('#profile_search #sfirst_name').val() == ""){
@@ -47,20 +56,21 @@ jQuery(document).ready( function($) {
 
 jQuery(document).ready( function($) {
 
-    $('div.panel-pop-content p.email_field input').on( 'change', function () {
+    $('div.panel-pop-content p#email_field input').on( 'input', function () {
+        
         var res = "";
         $.ajax({
             url: example_ajax_obj.ajaxurl, // or example_ajax_obj.ajaxurl if using on frontend
             data: {
                 'action': 'example_ajax_request',
-                'email_val' : $('p.email_field input').val()
+                'email_val' : $('p#email_field input').val()
             },
             cache: false,
             async:false,
             success:function(data) {
                 // This outputs the result of the ajax request
                 
-                var temp = $('p.email_field input').val().split('@');
+                var temp = $('p#email_field input').val().split('@');
                 var username = "";
                 if(temp.length == 2){
                     username =  temp[1][0] + temp[0];
@@ -78,10 +88,10 @@ jQuery(document).ready( function($) {
         });  
         
         if(res == -1){
-            console.log("success");
+            $('p#email_field').attr('aria-label', 'Success!');
         }else{
-            alert(res);
-            $('p.email_field input').val('');
+            $('p#email_field').attr('aria-label', res);
+            // $('p#email_field input').val('');
         }
     });
 });
