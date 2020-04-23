@@ -4,20 +4,20 @@
 jQuery(document).ready( function($) {
     // mobile css custom js
     jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('font-size','30px');
-    jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('color','green');
+    jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('color','#8dc21f');
     $('#profile_search #related_search').on( 'click', function () {
           
         if($('#profile_search #sfirst_name').val() == ""){
             // swal("Success Message Title", "Well done, you pressed a button", "success");
             // document.getElementsByClassName('sweet-alert')[0].style.visibility = "visible";
-            alert('Please enter frist name.');
+            alert('Please enter first name.');
             
         }
         else if($('#profile_search #slast_name').val() == ""){
             alert('Please enter last name.');
         }
         else if($('#profile_search #snric').val() == ""){
-            alert('Please enter 4 last nric.');
+            alert('Please enter at least 4 last nric.');
         }else{
             $.ajax({
                 url: ajaxurl,

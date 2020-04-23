@@ -263,4 +263,5 @@ if ($go_up_button == "on") {?>
 $ask_button = discy_options("ask_button");
 if ($ask_button == "on") {?>
 	<a href="<?php echo (class_exists("WPQA")?wpqa_add_question_permalink():"#")?>" title="<?php esc_attr_e("Ask a question","discy")?>" class="ask-button wpqa-question<?php echo apply_filters('wpqa_pop_up_class','').apply_filters('wpqa_pop_up_class_question','')?>"><i class="icon-pencil"></i></a>
+	
 <?php }?>

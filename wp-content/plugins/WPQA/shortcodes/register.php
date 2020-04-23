@@ -61,18 +61,18 @@ if (!function_exists('wpqa_signup_attr')) :
 								</p>	
 								'.apply_filters('wpqa_register_after_username',false,$posted);
 							}else if ($sort_key == "email" && isset($sort_value["value"]) && $sort_value["value"] == "email") {
-								$out .= '<p class="'.$sort_key.'_field">
+								$out .= '<p class="cooltipz--bottom-right" aria-label="Enter your email.">
 									<label for="email_'.$rand_r.'">'.esc_html__("E-Mail","wpqa").'<span class="required">*</span></label>
 									<input type="email" class="required-item" name="email" id="email_'.$rand_r.'" value="'.(isset($posted["email"])?$posted["email"]:"").'">
 									<i class="icon-mail"></i>
 								</p>';
 							}else if ($sort_key == "password" && isset($sort_value["value"]) && $sort_value["value"] == "password") {
-								$out .= '<p class="'.$sort_key.'_field">
+								$out .= '<p class="cooltipz--bottom-right" aria-label="Enter your password.">
 									<label for="pass1_'.$rand_r.'">'.esc_html__("Password","wpqa").'<span class="required">*</span></label>
 									<input type="password" class="required-item" name="pass1" id="pass1_'.$rand_r.'" autocomplete="off">
 									<i class="icon-lock-open"></i>
 								</p>
-								<p class="'.$sort_key.'_2_field">
+								<p class="cooltipz--bottom-right" aria-label="Enter your password again.">
 									<label for="pass2_'.$rand_r.'">'.esc_html__("Confirm Password","wpqa").'<span class="required">*</span></label>
 									<input type="password" class="required-item" name="pass2" id="pass2_'.$rand_r.'" autocomplete="off">
 									<i class="icon-lock"></i>
@@ -560,19 +560,19 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 			<i class="icon-vcard"></i>
 		</p>';
 	}else if ($key_items == "first_name" && isset($value_items["value"]) && $value_items["value"] == "first_name") {
-		$out .= '<p class="'.$key_items.'_field">
+		$out .= '<p class="cooltipz--bottom-right" aria-label="Enter your first name.">
 			<label for="first_name_'.$rand.'">'.esc_html__("First Name","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
 			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' name="first_name" id="first_name_'.$rand.'" type="text" value="'.(isset($_POST["first_name"])?esc_attr($_POST["first_name"]):($type == "edit"?esc_attr($user->first_name):"")).'">
 			<i class="icon-user"></i>
 		</p>';
 	}else if ($key_items == "last_name" && isset($value_items["value"]) && $value_items["value"] == "last_name") {
-		$out .= '<p class="'.$key_items.'_field">
+		$out .= '<p class="cooltipz--bottom-right" aria-label="Enter your last name.">
 			<label for="last_name_'.$rand.'">'.esc_html__("Last Name","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
 			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' name="last_name" id="last_name_'.$rand.'" type="text" value="'.(isset($_POST["last_name"])?esc_attr($_POST["last_name"]):($type == "edit"?esc_attr($user->last_name):"")).'">
 			<i class="icon-users"></i>
 		</p>';
 	}else if ($key_items == "display_name" && isset($value_items["value"]) && $value_items["value"] == "display_name") {
-		$out .= '<p class="'.$key_items.'_field">
+		$out .= '<p class="cooltipz--bottom-right" aria-label="Enter your display name.">
 			<label for="display_name_'.$rand.'">'.esc_html__("Display Name","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
 			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' name="display_name" id="display_name_'.$rand.'" type="text" value="'.(isset($_POST["display_name"])?esc_attr($_POST["display_name"]):($type == "edit"?esc_attr($user->display_name):"")).'">
 			<i class="icon-user"></i>
@@ -622,7 +622,7 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 		<div class="clearfix"></div>';
 	}else if ($key_items == "country" && isset($value_items["value"]) && $value_items["value"] == "country") {
 		$get_countries = apply_filters('wpqa_get_countries',false);
-		$out .= '<p class="'.$key_items.'_field">
+		$out .= '<p class="cooltipz--bottom-right" aria-label="Select country.">
 			<label for="country_'.$rand.'">'.esc_html__("Country","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
 			<span class="styled-select">
 				<select name="country" id="country_'.$rand.'" '.($key_required == "on"?'class="required-item"':'').'>
@@ -635,13 +635,13 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 			<i class="icon-location"></i>
 		</p>';
 	}else if ($key_items == "city" && isset($value_items["value"]) && $value_items["value"] == "city") {
-		$out .= '<p class="'.$key_items.'_field">
+		$out .= '<p class="cooltipz--bottom-right" aria-label="Enter your city name.">
 			<label for="city_'.$rand.'">'.esc_html__("City","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
 			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' type="text" name="city" id="city_'.$rand.'" value="'.(isset($_POST["city"])?esc_attr($_POST["city"]):($type == "edit"?esc_attr($user_meta):"")).'">
 			<i class="icon-address"></i>
 		</p>';
 	}else if ($key_items == "phone" && isset($value_items["value"]) && $value_items["value"] == "phone") {
-		$out .= '<p class="'.$key_items.'_field">
+		$out .= '<p class="cooltipz--bottom-right" aria-label="Enter your phone no.">
 			<label for="phone_'.$rand.'">'.esc_html__("Phone","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
 			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' type="text" name="phone" id="phone_'.$rand.'" value="'.(isset($_POST["phone"])?esc_attr($_POST["phone"]):($type == "edit"?esc_attr($user_meta):"")).'">
 			<i class="icon-phone"></i>
@@ -668,14 +668,14 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 			$out .= '<div class="clearfix"></div>
 		</div>';
 	}else if ($key_items == "age" && isset($value_items["value"]) && $value_items["value"] == "age") {
-		$out .= '<p class="'.$key_items.'_field">
+		$out .= 'class="cooltipz--bottom-right" aria-label="Enter your age."">
 			<label for="age_'.$rand.'">'.esc_html__("Age","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
 			<input'.$readonly.' type="text" class="age-datepicker'.($key_required == "on"?' required-item':'').'" name="age" id="age_'.$rand.'" value="'.(isset($_POST["age"])?esc_attr($_POST["age"]):($type == "edit"?esc_attr($user_meta):"")).'">
 			<i class="icon-globe"></i>
 		</p>';
 	}
 	else if ($key_items == "nric" && isset($value_items["value"]) && $value_items["value"] == "nric") {
-		$out .= '<p class="'.$key_items.'_field">
+		$out .= '<p class="cooltipz--bottom-right" aria-label="Enter your Nric.">
 			<label for="nric_'.$rand.'">'.esc_html__("Nric","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
 			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' name="nric" id="nric_'.$rand.'" type="text" value="'.(isset($_POST["nric"])?esc_attr($_POST["nric"]):($type == "edit"?esc_attr($user->nric):"")).'">
 			<i class="icon-info-circled"></i>
@@ -684,7 +684,7 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 	else if ($key_items == "userrole" && isset($value_items["value"]) && $value_items["value"] == "userrole") {
 		
 		$get_roles = apply_filters('wpqa_get_roles',false);
-		$out .= '<p class="'.$key_items.'_field">
+		$out .= '<p class="cooltipz--bottom-right" aria-label="Please select one role.">
 			<label for="userrole_'.$rand.'">'.esc_html__("User role","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
 			<span class="styled-select">
 				<select name="userrole" id="userrole_'.$rand.'" '.($key_required == "on"?'class="required-item"':'').'>

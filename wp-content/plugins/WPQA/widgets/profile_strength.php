@@ -27,6 +27,7 @@ class Widget_profile_strength extends WP_Widget {
 		extract( $args );
 		if (is_user_logged_in()) {
 			$user_id              = get_current_user_id();
+			
 			$user_email = get_the_author_meta("user_email",$user_id);
 			$user_role = get_the_author_meta("userrole",$user_id);
 			$items_left = $total  = 0;
@@ -118,20 +119,29 @@ class Widget_profile_strength extends WP_Widget {
 					$items_left--;
 					$total = $total+$percent_answer;
 				}
-			}
+			} 
 			$total = apply_filters("wpqa_widget_total",$total);
 			$items_left = apply_filters("wpqa_widget_items_left",$items_left);
+			echo '<div style="padding: 0px 20px 40px 20px;"><a style="width:48%; text-align:center;" class="button-default profile-button" href=';
+			echo wpqa_get_profile_permalink($user_id,"show");
+			echo '>My Profile</a>&nbsp;<a style="width:48%; text-align:center;" class="button-default profile-button" href=';
+			echo do_action("wpqa_action_get_logout");
+			echo '>Log Out</a></div>';
+
 			if ((isset($first_item) && $first_item != "") && ($done_avatar == false || $done_cover == false || $done_credential == false || $done_cats == false || $done_users == false || $done_question == false || $done_answer == false || $done_filter == false)) {
-						
 						
 				$title = apply_filters('widget_title', $instance['title'] );
 				echo ($before_widget);
 					if ($title) {
 						echo ($title == "empty"?"<div class='empty-title'>":"").($before_title.($title == "empty"?"":esc_attr($title)).$after_title).($title == "empty"?"</div>":"");
+						
 					}else {
 						echo "<h3 class='screen-reader-text'>".esc_html__("Profile Strength","wpqa")."</h3>";
+						
 					}?>
+					
 					<div class="widget-wrap">
+					<!-- <button class="cooltipz--top" aria-label="Hello there!">...</button> -->
 						<p><?php esc_html_e("You must have a total score of 100 for your profile.","wpqa")?></p>
 						<div class="progressbar-wrap">
 							<span class="progressbar-title">
@@ -163,11 +173,8 @@ class Widget_profile_strength extends WP_Widget {
 						</ul>
 						<div>
 							<a style="width:49%; text-align:center;" class="button-default profile-button" href="<?php echo wpqa_get_profile_permalink($user_id,"edit")?>"><?php esc_html_e("Start Now","wpqa")?></a>
-							<a style="width:49%; text-align:center;" class="button-default profile-button" href="<?php echo wpqa_get_profile_permalink($user_id,"show")?>"><?php esc_html_e("My Profile","wpqa")?></a>
 						</div>
 						<br>
-						
-						
 					</div>
 				<?php echo ($after_widget);
 			}
