@@ -1,10 +1,17 @@
 //my custom ajax
 
+
 jQuery(document).ready( function($) {
+    // mobile css custom js
+    jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('font-size','30px');
+    jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('color','green');
     $('#profile_search #related_search').on( 'click', function () {
           
         if($('#profile_search #sfirst_name').val() == ""){
+            // swal("Success Message Title", "Well done, you pressed a button", "success");
+            // document.getElementsByClassName('sweet-alert')[0].style.visibility = "visible";
             alert('Please enter frist name.');
+            
         }
         else if($('#profile_search #slast_name').val() == ""){
             alert('Please enter last name.');
@@ -24,17 +31,15 @@ jQuery(document).ready( function($) {
                 },
                 
                 success:function(data) {
-                    if($('#profile_search #related_searchnew'))
-                        $('#profile_search #related_searchnew').remove();
-                    $('#profile_search #related_search').parent().append('<a id="related_searchnew" style="margin:5px; width: 48%; text-align:center;" href="'
-                        +data+'" class="button-default profile-button">Go</a>');
+                    if(data != 1)
+                        window.location.href = data;
+                    
                     console.log(data);
                 },
                 error: function(errorThrown){
                     console.log(errorThrown);
                 }
             });
-            
         }
     });
 });

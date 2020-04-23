@@ -122,26 +122,7 @@ class Widget_profile_strength extends WP_Widget {
 			$total = apply_filters("wpqa_widget_total",$total);
 			$items_left = apply_filters("wpqa_widget_items_left",$items_left);
 			if ((isset($first_item) && $first_item != "") && ($done_avatar == false || $done_cover == false || $done_credential == false || $done_cats == false || $done_users == false || $done_question == false || $done_answer == false || $done_filter == false)) {
-				
-						if($user_role == "student"){
-							echo '<section id="profile_search"  style="padding: 0 20px 30px 18px;margin-bottom: 30px; border-bottom: 2px solid #e1e3e3;">';
-							echo '<h2 class="widget-title"><i class="icon-folder"></i>Search Your Parent Profile</h2>';
-							echo '<label>Your Parent First Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="first_name" id="sfirst_name" type="text" value=""> </i><br>';
-							echo '<label>Your Parent Last Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="last_name" id="slast_name" type="text" value=""> </i><br>';
-							echo '<label>Your Parent Nric<span class="required">*</span></label> <input class="required-item" style="width:100%" name="nric" id="snric" type="text" value=""> </i><br>';
-							echo '<div><a id="related_search" style="margin: 5px; width:48%; text-align:center;" class="button-default profile-button">Search</a></div>';
-							echo '</section>';
-						}
-						else if($user_role == "parent")
-						{
-							echo '<section id="profile_search" style="padding: 0 20px 30px 18px;margin-bottom: 30px;border-bottom: 2px solid #e1e3e3;">';
-							echo '<h2 class="widget-title"><i class="icon-folder"></i>Search Your Chidren Profile</h2>';
-							echo '<label>Your Chidren First Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="first_name" id="sfirst_name" type="text" value=""> </i><br>';
-							echo '<label>Your Children Last Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="last_name" id="slast_name" type="text" value=""> </i><br>';
-							echo '<label>Your Children Nric<span class="required">*</span></label> <input class="required-item" style="width:100%" name="nric" id="snric" type="text" value=""> </i><br>';
-							echo '<div><a id="related_search" style="margin: 5px; width: 48%; text-align:center;" class="button-default profile-button">Search</a></div>';
-							echo '</section>';
-						}
+						
 						
 				$title = apply_filters('widget_title', $instance['title'] );
 				echo ($before_widget);

@@ -8688,8 +8688,13 @@ function discy_admin_options() {
 	);
 
 	$options[] = array(
-		'name' => esc_html__('After being successfully registered, the following message are shown. ','discy'),
+		'name' => esc_html__('After being successfully posted a question, the following message are shown. ','discy'),
 		'id'   => 'message_success_registered',
+		'type' => 'text'
+	);
+	$options[] = array(
+		'name' => esc_html__('After being successfully registered, the following message are shown. ','discy'),
+		'id'   => 'message_success_registered_real',
 		'type' => 'text'
 	);
 	

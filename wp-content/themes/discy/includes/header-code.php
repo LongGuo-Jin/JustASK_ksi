@@ -95,8 +95,9 @@ $confirm_email = (class_exists("WPQA")?wpqa_users_confirm_mail():"");?>
 				<div class="right-header float_r">
 					<?php if (!is_user_logged_in()) {?>
 						<!-- here sign in button -->
+						<a style="color:green;" class="sign-in-lock mob-sign-<?php echo ($mobile_sign == "signup"?"up":"in").apply_filters('wpqa_pop_up_class','').apply_filters('wpqa_pop_up_class_'.($mobile_sign == "signup"?"signup":"login"),'')?>" href="<?php echo (class_exists("WPQA")?($mobile_sign == "signup"?wpqa_signup_permalink():wpqa_login_permalink()):"#")?>" data-toggle="modal"><i class="icon-lock"></i></a>
+						<a class="sign-in-lock mob-sign-in" style="margin-left: 5px;margin-right: 5px;color:green;" href="http://localhost/justask/log-in/" data-toggle="modal"><i class="icon-login"></i></a>
 						
-						<a class="sign-in-lock mob-sign-<?php echo ($mobile_sign == "signup"?"up":"in").apply_filters('wpqa_pop_up_class','').apply_filters('wpqa_pop_up_class_'.($mobile_sign == "signup"?"signup":"login"),'')?>" href="<?php echo (class_exists("WPQA")?($mobile_sign == "signup"?wpqa_signup_permalink():wpqa_login_permalink()):"#")?>" data-toggle="modal"><i class="icon-lock"></i></a>
 						<a class="button-default button-sign-in<?php echo apply_filters('wpqa_pop_up_class','').apply_filters('wpqa_pop_up_class_login','')?>" href="<?php echo (class_exists("WPQA")?wpqa_login_permalink():"#")?>" data-toggle="modal"><?php esc_html_e('Sign In','discy')?></a><a class="button-default<?php echo ($header_skin == "colored"?"":"-2")?> button-sign-up<?php echo apply_filters('wpqa_pop_up_class','').apply_filters('wpqa_pop_up_class_signup','')?>" href="<?php echo (class_exists("WPQA")?wpqa_signup_permalink():"#")?>"><?php esc_html_e('Sign Up','discy')?></a>
 					<?php }else {
 						$user_login_links = discy_options('user_login_links');
@@ -322,9 +323,9 @@ $confirm_email = (class_exists("WPQA")?wpqa_users_confirm_mail():"");?>
 					<div class="mobile-bar-content">
 						<div class="discy-container">
 							<div class="mobile-bar-search">
-								<a href="<?php do_action("wpqa_search_permalink")?>"><i class="icon-search"></i><?php esc_html_e("Search","discy")?></a>
+								<a href="<?php do_action("wpqa_search_permalink")?>"><i class="icon-search" style="color:green;"></i><?php esc_html_e("Search","discy")?></a>
 								<form role="search" method="get" class="searchform main-search-form" action="<?php do_action("wpqa_search_permalink")?>">
-									<i class="icon-left-open"></i>
+									<i class="icon-left-open" style="color:green;"></i>
 									<input type="search"<?php echo ($live_search == "on"?" class='live-search' autocomplete='off'":"")?> name="search" value="<?php if ($search_value != "") {echo esc_html($search_value);}else {esc_html_e("Hit enter to search","discy");}?>" onfocus="if(this.value=='<?php esc_attr_e("Hit enter to search","discy")?>')this.value='';" onblur="if(this.value=='')this.value='<?php esc_attr_e("Hit enter to search","discy")?>';">
 									<?php if ($live_search == "on") {?>
 										<div class="loader_2 search_loader"></div>
@@ -333,6 +334,7 @@ $confirm_email = (class_exists("WPQA")?wpqa_users_confirm_mail():"");?>
 									<input type="hidden" name="search_type" class="search_type" value="<?php do_action("wpqa_search_type")?>">
 								</form>
 							</div>
+							
 							<div class="mobile-bar-ask">
 								<?php if (class_exists("WPQA")) {
 									$mobile_button = discy_options("mobile_button");
@@ -357,7 +359,7 @@ $confirm_email = (class_exists("WPQA")?wpqa_users_confirm_mail():"");?>
 										$mobile_button_text = discy_options("mobile_button_text");
 									}
 									$mobile_button_target = ($mobile_button == "custom" && isset($mobile_button_target) && $mobile_button_target == "new_page"?"_blank":"_self");?>
-									<a target="<?php echo esc_attr($mobile_button_target)?>" class="<?php echo esc_attr($mobile_button_class)?> <?php echo apply_filters('wpqa_pop_up_class','').(isset($filter_class) && $filter_class != ''?apply_filters('wpqa_pop_up_class_'.$filter_class,''):'')?>" href="<?php echo esc_url($mobile_button_link)?>"><i class="<?php echo esc_attr($icon_class)?>"></i><?php echo esc_html($mobile_button_text)?></a>
+									<a target="<?php echo esc_attr($mobile_button_target)?>" class="<?php echo esc_attr($mobile_button_class)?> <?php echo apply_filters('wpqa_pop_up_class','').(isset($filter_class) && $filter_class != ''?apply_filters('wpqa_pop_up_class_'.$filter_class,''):'')?>" href="<?php echo esc_url($mobile_button_link)?>"><i style="color:green;" class="<?php echo esc_attr($icon_class)?>"></i><?php echo esc_html($mobile_button_text)?></a>
 								<?php }?>
 							</div>
 						</div><!-- End discy-container -->

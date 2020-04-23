@@ -1540,7 +1540,17 @@
 							jQuery('.wpqa_captcha',thisform).val("");
 							jQuery(".wpqa_success",thisform).html(result.done).animate({opacity: 'show' , height: 'show'}, 400).delay(5000).animate({opacity: 'hide' , height: 'hide'}, 400);
 						}else {
-							window.location = result.redirect;
+							
+							if(result.register ==1){
+								setTimeout(function(){ window.location = result.redirect; }, 2000);
+								swal("Success!", result.mess , "success");
+
+            					document.getElementsByClassName('sweet-alert')[0].style.visibility = "visible";
+							}
+							else{
+								window.location = result.redirect;
+							}
+							// console.log(result);
 						}
 					}else if (result != null && result.error) {
 						jQuery(".wpqa_error",thisform).html('<span class="required-error">'+result.error+'</span>').animate({opacity: 'show' , height: 'show'}, 400).delay(5000).animate({opacity: 'hide' , height: 'hide'}, 400);

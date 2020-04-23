@@ -188,8 +188,11 @@ function retrieveUsersData(){
 			$res = get_the_author_meta("nickname",$user->id);
 		}
 	}
-
-	echo get_site_url().'/profile/'.$res;
+	if($res)
+		echo get_site_url().'/profile/'.$res.'/';
+	else
+		echo 1;
+	
 	die();
 }
 
@@ -289,6 +292,8 @@ if (!function_exists('wpqa_signup_jquery')) :
 		
 		// Result
 		$result = array();
+		$result['register'] = 1;
+		$result['mess'] = wpqa_options("message_success_registered_real");
 		if ( !$errors->get_error_code() ) :
 			do_action('register_post', $posted['user_name'], $posted['email'], $errors);
 			$errors = apply_filters( 'registration_errors', $errors, $posted['user_name'], $posted['email'] );
@@ -360,6 +365,8 @@ if (!function_exists('wpqa_signup_jquery')) :
 					wp_set_auth_cookie($user_id, true, $secure_cookie);
 					
 					$after_register = wpqa_options("after_register");
+					
+
 					$after_register_link = wpqa_options("after_register_link");
 					
 					if (isset($posted['redirect_to']) && $after_register == "same_page") {
@@ -373,8 +380,10 @@ if (!function_exists('wpqa_signup_jquery')) :
 					}
 					if (wpqa_is_ajax()) {
 						$result['success'] = 1;
+						
 						$result['redirect'] = $redirect_to;
 					}else {
+						
 						wp_safe_redirect($redirect_to);
 						die();
 					}
@@ -409,9 +418,11 @@ if (!function_exists('wpqa_signup_process')) :
 	function wpqa_signup_process() {
 		if (isset($_POST['form_type']) && $_POST['form_type'] == "wpqa-signup") :
 			$return = wpqa_signup_jquery();
+			
 			if (is_wp_error($return)) :
 	   			return '<div class="wpqa_error wpqa_error_register">'.$return->get_error_message().'</div>';
-	   		endif;
+			endif;
+
 		endif;
 	}
 endif;
@@ -667,7 +678,7 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 		$out .= '<p class="'.$key_items.'_field">
 			<label for="nric_'.$rand.'">'.esc_html__("Nric","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
 			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' name="nric" id="nric_'.$rand.'" type="text" value="'.(isset($_POST["nric"])?esc_attr($_POST["nric"]):($type == "edit"?esc_attr($user->nric):"")).'">
-			<i class="icon-users"></i>
+			<i class="icon-info-circled"></i>
 		</p>';
 	}
 	else if ($key_items == "userrole" && isset($value_items["value"]) && $value_items["value"] == "userrole") {
@@ -683,7 +694,7 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 						}
 				$out .= '</select>
 			</span>
-			<i class="icon-users"></i>
+			<i class="icon-user-add"></i>
 		</p>';
 	}
 	
@@ -808,7 +819,7 @@ function wpqa_register_edit_profile_updated($user_id,$posted,$files,$type) {
 		require_once(ABSPATH.'wp-admin/includes/file.php');
 	}
 
-	// echo '<script type="text/JavaScript">alert("ss");</script>';
+	
 
 	if (isset($files[$user_meta_avatar]) && !empty($files[$user_meta_avatar]['name'])) :
 		$your_avatar = wp_handle_upload($files[$user_meta_avatar],array('test_form' => false),current_time('mysql'));
@@ -880,6 +891,9 @@ function wpqa_register_edit_profile_updated($user_id,$posted,$files,$type) {
 	}
 
 	if ($type == "register") {
+		// echo '<script type="text/JavaScript">alert("ss");</script>';
+		$result['register'] = 1;
+		$result['mess'] = wpqa_options("message_success_registered_real");
 		
 		$array_posts = array("first_name","last_name","country","city","phone","gender","age",'nric','userrole');
 		foreach ($array_posts as $key => $value) {

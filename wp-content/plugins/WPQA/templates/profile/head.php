@@ -115,6 +115,36 @@ include wpqa_get_template("head-tabs.php","profile/");?>
 			</div><!-- End user-follower -->
 		<?php }?>
 	</div><!-- End user-area-content -->
+	<?php
+		// echo '<p>'.home_url( $wp->request ).'</p>';
+		$cur_site_url = $_SERVER['REQUEST_URI'];
+		$cur_last = end(explode("/",$cur_site_url,-1));
+		// echo '<p>'.$cur_last.'</p>';
+		
+		$user_id              = get_current_user_id();
+		$user_role = get_the_author_meta("userrole",$user_id);
+		if($cur_last == get_the_author_meta("nickname",$user_id)){
+			if($user_role == "student"){
+				echo '<section id="profile_search" >';
+				echo '<h2 class="widget-title"><i class="icon-folder"></i>Search Your Parent Profile</h2>';
+				echo '<label>Your Parent First Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="first_name" id="sfirst_name" type="text" value=""> </i><br>';
+				echo '<label>Your Parent Last Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="last_name" id="slast_name" type="text" value=""> </i><br>';
+				echo '<label>Your Parent Nric<span class="required">*</span></label> <input class="required-item" style="width:100%" name="nric" id="snric" type="text" value=""> </i><br>';
+				echo '<div style="text-align: center;"><a id="related_search" style="margin: 5px; width:48%; text-align:center;" class="button-default profile-button">Link</a></div>';
+				echo '</section>';
+			}
+			else if($user_role == "parent")
+			{
+				echo '<section id="profile_search" >';
+				echo '<h2 class="widget-title"><i class="icon-folder"></i>Search Your Chidren Profile</h2>';
+				echo '<label>Your Chidren First Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="first_name" id="sfirst_name" type="text" value=""> </i><br>';
+				echo '<label>Your Children Last Name<span class="required">*</span></label> <input class="required-item" style="width:100%" name="last_name" id="slast_name" type="text" value=""> </i><br>';
+				echo '<label>Your Children Nric<span class="required">*</span></label> <input class="required-item" style="width:100%" name="nric" id="snric" type="text" value=""> </i><br>';
+				echo '<div style="text-align: center;"><a id="related_search" style="margin: 5px; width: 48%; text-align:center;" class="button-default profile-button">Link</a></div>';
+				echo '</section>';
+			}
+		}
+	?>
 <?php }
 
 do_action("wpqa_after_head_content_profile",$wpqa_user_id);?>
