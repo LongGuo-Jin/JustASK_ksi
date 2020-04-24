@@ -27,7 +27,8 @@ class Widget_profile_strength extends WP_Widget {
 		extract( $args );
 		if (is_user_logged_in()) {
 			$user_id              = get_current_user_id();
-			
+			$user_role = get_the_author_meta("userrole",$user_id);
+			$link_url = get_the_author_meta("link",$user_id);
 			$user_email = get_the_author_meta("user_email",$user_id);
 			$user_role = get_the_author_meta("userrole",$user_id);
 			$items_left = $total  = 0;
@@ -126,8 +127,16 @@ class Widget_profile_strength extends WP_Widget {
 			echo wpqa_get_profile_permalink($user_id,"show");
 			echo '>My Profile</a>&nbsp;<a style="width:48%; text-align:center;" class="button-default profile-button" href=';
 			echo do_action("wpqa_action_get_logout");
-			echo '>Log Out</a></div>';
-
+			echo '>Log Out</a>';
+			
+			if($user_role == "student"){
+				echo '<a id="url_link" href="'.$link_url.'" style="width:97%; text-align:center;" class="button-default profile-button">My Parent Profile</a>';
+			}
+			else if($user_role == "parent")
+			{
+				echo '<a id="url_link" href="'.$link_url.'" style="width:97%; text-align:center;" class="button-default profile-button">My Children Profile</a>';
+			}
+			echo '</div>';
 			if ((isset($first_item) && $first_item != "") && ($done_avatar == false || $done_cover == false || $done_credential == false || $done_cats == false || $done_users == false || $done_question == false || $done_answer == false || $done_filter == false)) {
 						
 				$title = apply_filters('widget_title', $instance['title'] );

@@ -11,6 +11,13 @@ jQuery(document).ready( function($) {
         jQuery('#register_button').css('background-color','#81b441');
         jQuery('#register_button').removeAttr('disabled');
     });
+
+    jQuery('#url_link').on('click', function(){
+        if(jQuery('#url_link').attr('href') == ""){
+            swal("Error", "Please go to your profile and search it.", "error");
+            document.getElementsByClassName('sweet-alert')[0].style.visibility = "visible";
+        }
+    });
     var width = $(window).width();
     
     if (width < 782) {
@@ -23,16 +30,18 @@ jQuery(document).ready( function($) {
     $('#profile_search #related_search').on( 'click', function () {
         
         if($('#profile_search #sfirst_name').val() == ""){
-            // swal("Success Message Title", "Well done, you pressed a button", "success");
-            // document.getElementsByClassName('sweet-alert')[0].style.visibility = "visible";
-            alert('Please enter first name.');
+            swal("Error", "Please enter first name", "error");
+            document.getElementsByClassName('sweet-alert')[0].style.visibility = "visible";
+            // alert('Please enter first name.');
             
         }
         else if($('#profile_search #slast_name').val() == ""){
-            alert('Please enter last name.');
+            swal("Error", "Please enter last name.", "error");
+            document.getElementsByClassName('sweet-alert')[0].style.visibility = "visible";
         }
         else if($('#profile_search #snric').val() == ""){
-            alert('Please enter at least 4 last nric.');
+            swal("Error", "Please enter at least 4 last nric.", "error");
+            document.getElementsByClassName('sweet-alert')[0].style.visibility = "visible";
         }else{
             $.ajax({
                 url: ajaxurl,

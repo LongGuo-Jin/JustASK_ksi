@@ -123,7 +123,7 @@ include wpqa_get_template("head-tabs.php","profile/");?>
 		
 		$user_id              = get_current_user_id();
 		$user_role = get_the_author_meta("userrole",$user_id);
-		if($cur_last == get_the_author_meta("nickname",$user_id)){
+		if($cur_last == strtolower(get_the_author_meta("nickname",$user_id))){
 			if($user_role == "student"){
 				echo '<section id="profile_search" >';
 				echo '<h2 class="widget-title"><i class="icon-folder"></i>Search Your Parent Profile</h2>';

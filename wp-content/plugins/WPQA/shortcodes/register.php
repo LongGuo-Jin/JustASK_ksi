@@ -180,6 +180,8 @@ function retrieveUsersData(){
 	$first = $_REQUEST['first'];
 	$last = $_REQUEST['last'];
 	$nric = $_REQUEST['nric'];
+	$userid              = get_current_user_id();
+
 	global $wpdb;
 	$users = get_users(); // get array of WP_User objects
 	foreach ( $users as $user ) {
@@ -188,11 +190,14 @@ function retrieveUsersData(){
 			$res = get_the_author_meta("nickname",$user->id);
 		}
 	}
-	if($res)
-		echo get_site_url().'/profile/'.$res.'/';
+	
+	if($res){
+		$returned_url = get_site_url().'/profile/'.$res.'/';
+		update_user_meta( $userid, 'link', $returned_url);
+		echo $returned_url;
+	}
 	else
 		echo 1;
-	
 	die();
 }
 
