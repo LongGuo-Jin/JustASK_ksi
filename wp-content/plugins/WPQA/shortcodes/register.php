@@ -57,7 +57,7 @@ if (!function_exists('wpqa_signup_attr')) :
 							if ($sort_key == "username" && isset($sort_value["value"]) && $sort_value["value"] == "username") {
 								$out .= '
 								<p class="user_role_field">
-								<input type="hidden" class="required-item" name="user_name" id="user_name_'.$rand_r.'" value="'.(isset($posted["user_name"])?$posted["user_name"]:"").'">
+								<input type="hidden" name="user_name" id="user_name_'.$rand_r.'" value="'.(isset($posted["user_name"])?$posted["user_name"]:"").'">
 								</p>	
 								'.apply_filters('wpqa_register_after_username',false,$posted);
 							}else if ($sort_key == "email" && isset($sort_value["value"]) && $sort_value["value"] == "email") {
@@ -74,7 +74,7 @@ if (!function_exists('wpqa_signup_attr')) :
 								</p>
 								<p class="cooltipz--bottom-right" aria-label="Enter your password again.">
 									<label for="pass2_'.$rand_r.'">'.esc_html__("Confirm Password","wpqa").'<span class="required">*</span></label>
-									<input type="password" class="required-item" name="pass2" id="pass2_'.$rand_r.'" autocomplete="off">
+									<input type="password" id="pass_id_for_register" class="required-item" name="pass2" id="pass2_'.$rand_r.'" autocomplete="off">
 									<i class="icon-lock"></i>
 								</p>'.apply_filters('wpqa_register_after_password',false,$posted);
 							}
@@ -116,7 +116,7 @@ if (!function_exists('wpqa_signup_attr')) :
 					<input type="hidden" name="redirect_to" value="'.esc_url(wp_unslash($protocol.'://'.wpqa_server('HTTP_HOST').wpqa_server('REQUEST_URI'))).'">
 					'.wp_referer_field().'
 					<input type="hidden" name="wpqa_signup_nonce" value="'.wp_create_nonce("wpqa_signup_nonce").'">
-					<input type="submit" name="register" value="'.esc_attr__("Signup","wpqa").'" class="button-default button-hide-click'.(isset($a["dark_button"]) && $a["dark_button"] == "dark_button"?" dark_button":"").'">
+					<input type="submit" name="register" id="register_button" style="background-color: #7c7f85;" disabled value="'.esc_attr__("Signup","wpqa").'" class="button-default button-hide-click'.(isset($a["dark_button"]) && $a["dark_button"] == "dark_button"?" dark_button":"").'">
 				</p>
 			</form>';
 		}
@@ -140,7 +140,7 @@ function example_ajax_request() {
 		if ( !is_email( $email_val ) ) :
 			$err = "Please write correctly email.";
 		elseif ( email_exists( $email_val ) ) :
-			$err = "This email ".$email_val." is already registered.";
+			$err = $email_val." is already registered.";
 		endif;
 		echo $err;
 		
@@ -237,15 +237,16 @@ if (!function_exists('wpqa_signup_jquery')) :
 		$posted = array_map('stripslashes', $posted);
 		$posted['username'] = sanitize_user((isset($posted['username'])?$posted['username']:""));
 		// Validation
-		// if ( empty($posted['userrole']) ) {
-		// 	$errors->add('required-userrole',esc_html__("Please enter select one role.","wpqa"));
-		// }
+		
 
 		if ( empty($posted['user_name']) ) {
 			$errors->add('required-username',esc_html__("Please enter your name.","wpqa"));
 		}
 		if ( $allow_spaces != "on" && $posted['user_name'] == trim($posted['user_name']) && strpos($posted['user_name'], ' ') !== false ) {
 			$errors->add('error-username',esc_html__("Please enter your name without any spaces.","wpqa"));
+		}
+		if ( empty($posted['userrole']) ) {
+			$errors->add('required-userrole',esc_html__("Please enter select one role.","wpqa"));
 		}
 		if ( empty($posted['email']) ) {
 			$errors->add('required-email',esc_html__("Please enter your email.","wpqa"));
@@ -260,14 +261,6 @@ if (!function_exists('wpqa_signup_jquery')) :
 			$errors->add('required-pass1',esc_html__("Password does not match.","wpqa"));
 		}
 
-		do_action('wpqa_register_errors_main',$errors,$posted,$register_items,"register");
-		
-		wpqa_check_captcha(wpqa_options("the_captcha_register"),"register",$posted,$errors);
-		
-		$terms_active_register = wpqa_options("terms_active_register");
-		if ($terms_active_register == "on" && $posted['agree_terms'] != "on") {
-			$errors->add('required-terms', esc_html__("There are required fields (Agree of the terms).","wpqa"));
-		}
 		// Check the username
 		if ( username_exists( $posted['user_name'] ) ) :
 			$errors->add('registered-username',esc_html__("This username is already registered.","wpqa"));
@@ -278,6 +271,16 @@ if (!function_exists('wpqa_signup_jquery')) :
 		elseif ( email_exists( $posted['email'] ) ) :
 			$errors->add('registered-email',esc_html__("This email is already registered.","wpqa"));
 		endif;
+
+		do_action('wpqa_register_errors_main',$errors,$posted,$register_items,"register");
+		
+		wpqa_check_captcha(wpqa_options("the_captcha_register"),"register",$posted,$errors);
+		
+		$terms_active_register = wpqa_options("terms_active_register");
+		if ($terms_active_register == "on" && $posted['agree_terms'] != "on") {
+			$errors->add('required-terms', esc_html__("There are required fields (Agree of the terms).","wpqa"));
+		}
+		
 
 		$black_list_emails = wpqa_options("black_list_emails");
 		if (is_array($black_list_emails) && !empty($black_list_emails)) {
@@ -571,6 +574,21 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 			<input'.($key_required == "on"?' class="required-item"':'').$readonly.' name="last_name" id="last_name_'.$rand.'" type="text" value="'.(isset($_POST["last_name"])?esc_attr($_POST["last_name"]):($type == "edit"?esc_attr($user->last_name):"")).'">
 			<i class="icon-users"></i>
 		</p>';
+	}else if ($key_items == "userrole" && isset($value_items["value"]) && $value_items["value"] == "userrole") {
+		
+		$get_roles = apply_filters('wpqa_get_roles',false);
+		$out .= '<p class="cooltipz--bottom-right" aria-label="Please select one role.">
+			<label for="userrole_'.$rand.'">'.esc_html__("User role","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
+			<span class="styled-select">
+				<select name="userrole" id="userrole_'.$rand.'" '.($key_required == "on"?'class="required-item"':'').'>
+					<option value="">'.esc_html__( 'Select One Role', 'wpqa' ).'</option>';
+						foreach( $get_roles as $key => $value ) {
+							$out .= '<option value="' . esc_attr( $key ) . '"' . selected( (isset($_POST["userrole"])?esc_attr($_POST["userrole"]):($type == "edit"?esc_attr($user_meta):"")), esc_attr( $key ), false ) . '>' . esc_attr( $value ) . '</option>';
+						}
+				$out .= '</select>
+			</span>
+			<i class="icon-user-add"></i>
+		</p>';
 	}else if ($key_items == "display_name" && isset($value_items["value"]) && $value_items["value"] == "display_name") {
 		$out .= '<p class="cooltipz--bottom-right" aria-label="Enter your display name.">
 			<label for="display_name_'.$rand.'">'.esc_html__("Display Name","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
@@ -681,22 +699,7 @@ function wpqa_register_edit_fields($key_items,$value_items,$type,$rand,$user = o
 			<i class="icon-info-circled"></i>
 		</p>';
 	}
-	else if ($key_items == "userrole" && isset($value_items["value"]) && $value_items["value"] == "userrole") {
-		
-		$get_roles = apply_filters('wpqa_get_roles',false);
-		$out .= '<p class="cooltipz--bottom-right" aria-label="Please select one role.">
-			<label for="userrole_'.$rand.'">'.esc_html__("User role","wpqa").($key_required == "on"?'<span class="required">*</span>':'').'</label>
-			<span class="styled-select">
-				<select name="userrole" id="userrole_'.$rand.'" '.($key_required == "on"?'class="required-item"':'').'>
-					<option value="">'.esc_html__( 'Select One Role', 'wpqa' ).'</option>';
-						foreach( $get_roles as $key => $value ) {
-							$out .= '<option value="' . esc_attr( $key ) . '"' . selected( (isset($_POST["userrole"])?esc_attr($_POST["userrole"]):($type == "edit"?esc_attr($user_meta):"")), esc_attr( $key ), false ) . '>' . esc_attr( $value ) . '</option>';
-						}
-				$out .= '</select>
-			</span>
-			<i class="icon-user-add"></i>
-		</p>';
-	}
+	
 	
 	return $out;
 }

@@ -6,6 +6,11 @@ jQuery(document).ready( function($) {
     jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('font-size','30px');
     jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('color','#8dc21f');
     jQuery('.mobile-menu').css('padding-top', '6px');
+    
+    jQuery('#pass_id_for_register').on('input', function(){
+        jQuery('#register_button').css('background-color','#81b441');
+        jQuery('#register_button').removeAttr('disabled');
+    });
     var width = $(window).width();
     
     if (width < 782) {
@@ -60,6 +65,7 @@ jQuery(document).ready( function($) {
     $('div.panel-pop-content p#email_field input').on( 'change', function () {
         
         var res = "";
+        jQuery('#register_button').attr('disabled','disabled');
         $.ajax({
             url: example_ajax_obj.ajaxurl, // or example_ajax_obj.ajaxurl if using on frontend
             data: {
@@ -90,11 +96,12 @@ jQuery(document).ready( function($) {
         
         if(res == -1){
             $('p#email_field').attr('aria-label', 'Enter your email.');
+            $('p#email_field').blur();
         }else{
-            
             $('p#email_field').attr('aria-label', res);
             $('p#email_field').focus();
         }
+        jQuery('#register_button').removeAttr('disabled');
     });
 });
 

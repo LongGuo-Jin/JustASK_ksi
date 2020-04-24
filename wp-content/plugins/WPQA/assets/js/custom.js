@@ -1523,6 +1523,7 @@
 						});
 						if (message == "wpqa_captcha_0") {
 							jQuery(".wpqa_error",thisform).html('<span class="required-error required-error-c">'+wpqa_js.wpqa_error_captcha+'</span>').animate({opacity: 'show' , height: 'show'}, 400).delay(5000).animate({opacity: 'hide' , height: 'hide'}, 400);
+
 							wpqa_captcha.css("border-color","#F00");
 							jQuery('.load_span',thisform).hide().css({"display":"none"});
 							jQuery('input[type="submit"]',thisform).show();
@@ -1553,6 +1554,8 @@
 							// console.log(result);
 						}
 					}else if (result != null && result.error) {
+						// swal("Error!", result.error , "error");
+						// document.getElementsByClassName('sweet-alert')[0].style.visibility = "visible";
 						jQuery(".wpqa_error",thisform).html('<span class="required-error">'+result.error+'</span>').animate({opacity: 'show' , height: 'show'}, 400).delay(5000).animate({opacity: 'hide' , height: 'hide'}, 400);
 					}else {
 						return true;

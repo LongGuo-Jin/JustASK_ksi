@@ -8,6 +8,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
+
 .wings-shape:before {
 	content: "\e900";
 	font-family: 'wings-shape';
