@@ -5,6 +5,7 @@ jQuery(document).ready( function($) {
     // mobile css custom js
     jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('font-size','30px');
     jQuery('.discy-container .mobile-menu  .mobile-menu-click i').css('color','#8dc21f');
+    jQuery('.mobile-menu').css('padding-top', '6px');
     var width = $(window).width();
     
     if (width < 782) {
@@ -15,7 +16,7 @@ jQuery(document).ready( function($) {
     
     // jQuery('.call-action-unlogged.call-action-light.call-action-style_1').addClass('mobile_response_landpage');
     $('#profile_search #related_search').on( 'click', function () {
-          
+        
         if($('#profile_search #sfirst_name').val() == ""){
             // swal("Success Message Title", "Well done, you pressed a button", "success");
             // document.getElementsByClassName('sweet-alert')[0].style.visibility = "visible";
@@ -56,7 +57,7 @@ jQuery(document).ready( function($) {
 
 jQuery(document).ready( function($) {
 
-    $('div.panel-pop-content p#email_field input').on( 'input', function () {
+    $('div.panel-pop-content p#email_field input').on( 'change', function () {
         
         var res = "";
         $.ajax({
@@ -88,10 +89,11 @@ jQuery(document).ready( function($) {
         });  
         
         if(res == -1){
-            $('p#email_field').attr('aria-label', 'Success!');
+            $('p#email_field').attr('aria-label', 'Enter your email.');
         }else{
+            
             $('p#email_field').attr('aria-label', res);
-            // $('p#email_field input').val('');
+            $('p#email_field').focus();
         }
     });
 });

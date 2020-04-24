@@ -95,8 +95,8 @@ $confirm_email = (class_exists("WPQA")?wpqa_users_confirm_mail():"");?>
 				<div class="right-header float_r">
 					<?php if (!is_user_logged_in()) {?>
 						<!-- here sign in button -->
-						<a class="sign-in-lock mob-sign-<?php echo ($mobile_sign == "signup"?"up":"in").apply_filters('wpqa_pop_up_class','').apply_filters('wpqa_pop_up_class_'.($mobile_sign == "signup"?"signup":"login"),'')?>" href="<?php echo (class_exists("WPQA")?($mobile_sign == "signup"?wpqa_signup_permalink():wpqa_login_permalink()):"#")?>" data-toggle="modal"><i class="icon-lock"></i></a>
-						<a class="sign-in-lock mob-sign-in" style="margin-left: 5px;margin-right: 5px;" href="http://localhost/justask/log-in/" data-toggle="modal"><i class="icon-login"></i></a>
+						<a class="sign-in-lock mob-sign-<?php echo ($mobile_sign == "signup"?"up":"in").apply_filters('wpqa_pop_up_class','').apply_filters('wpqa_pop_up_class_'.($mobile_sign == "signup"?"signup":"login"),'')?>" href="<?php echo (class_exists("WPQA")?($mobile_sign == "signup"?wpqa_signup_permalink():wpqa_login_permalink()):"#")?>" data-toggle="modal"><i class="icon-user-add"></i></a>
+						<a class="sign-in-lock mob-sign-in" style="margin-left: 10px;margin-right: 10px;" href="http://localhost/justask/log-in/" data-toggle="modal"><i class="icon-login"></i></a>
 						
 						<a class="button-default button-sign-in<?php echo apply_filters('wpqa_pop_up_class','').apply_filters('wpqa_pop_up_class_login','')?>" href="<?php echo (class_exists("WPQA")?wpqa_login_permalink():"#")?>" data-toggle="modal"><?php esc_html_e('Sign In','discy')?></a><a class="button-default<?php echo ($header_skin == "colored"?"":"-2")?> button-sign-up<?php echo apply_filters('wpqa_pop_up_class','').apply_filters('wpqa_pop_up_class_signup','')?>" href="<?php echo (class_exists("WPQA")?wpqa_signup_permalink():"#")?>"><?php esc_html_e('Sign Up','discy')?></a>
 					<?php }else {

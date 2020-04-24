@@ -61,7 +61,7 @@ if (!function_exists('wpqa_signup_attr')) :
 								</p>	
 								'.apply_filters('wpqa_register_after_username',false,$posted);
 							}else if ($sort_key == "email" && isset($sort_value["value"]) && $sort_value["value"] == "email") {
-								$out .= '<p id="email_field" class="cooltipz--bottom-right" aria-label="Enter your email.">
+								$out .= '<p id="email_field" tabindex="1" class="cooltipz--bottom-right" aria-label="Enter your email.">
 									<label for="email_'.$rand_r.'">'.esc_html__("E-Mail","wpqa").'<span class="required">*</span></label>
 									<input type="email" class="required-item" name="email" id="email_'.$rand_r.'" value="'.(isset($posted["email"])?$posted["email"]:"").'">
 									<i class="icon-mail"></i>
